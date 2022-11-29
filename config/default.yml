@@ -1,0 +1,36 @@
+#
+# Created on Wed Jan 5 2022
+#
+# @Auther:- Dhrumil Shah
+# Copyright (c) 2022 Oneclick
+#
+
+server:
+    port: 7777
+
+db:
+    type: "postgres"
+    port: 5433
+    username: "postgres"
+    host:     "localhost"
+    database: "apple_and_more"
+    password: "Oneclick1@"
+    synchronize: true
+
+
+    
+jwt:
+    ExpireIn: 2592000
+    SecretKey: "mySecre@tKey"
+
+# email:
+#     host: "smtpout.secureserver.net"
+#     user: "no-reply@shoploba.com"
+#     pass: "3!hg2022"
+#     port: 465
+#     secure: true
+
+otp:
+    enabled: true
+    expireTime: 10
+

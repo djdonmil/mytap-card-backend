@@ -1,0 +1,14 @@
+{
+    "EMAIL_EXISTS": "Email already exists.",
+    "USER_NOT_FOUND": "User not found",
+    "NOT_ACTIVE": "Your account has been disabled. Please contact administrator person.",
+    "INVALID_USER": "Please enter correct email address and password.",
+    "WRONG_OTP": "Otp cannot match.Please try again.",
+    "EXPIRE_OTP": "Otp has been expire.",
+    "EMAIL_NOT_VERIFY": "Your email is not verified.Please verify email address.",
+    "NOT_MATCH_PASSWORD": "Your old password does not match.",
+    "INVALID_LINK": "Invalid link.Please try again.",
+    "IN_ACTIVE_LINK": "Link is already used.Please try again.",
+    "EXPIRE_LINK": "Reset Password Link has expired, please try again.",
+    "USER_EMAIL_NOT_EXIST": "Account not found, please try again!"
+}

@@ -1,0 +1,13 @@
+{
+    "EMAIL_EXISTS":"L'email existe déjà.",
+    "USER_NOT_FOUND":"Utilisateur non trouvé.",
+    "NOT_ACTIVE":"Votre compte a été désactivé. Veuillez contacter la personne administrateur.",
+    "INVALID_USER":"Authentification invalide! Veuillez saisir l'identifiant e-mail et le mot de passe corrects.",
+    "WRONG_OTP":"OTP ne peut pas correspondre. Veuillez réessayer.",
+    "EXPIRE_OTP":"OTP a expiré.",
+    "EMAIL_NOT_VERIFY": "Votre e-mail n'est pas vérifié.Veuillez vérifier l'adresse e-mail.",
+    "NOT_MATCH_PASSWORD":"Votre ancien mot de passe ne correspond pas.",
+    "INVALID_LINK":"Lien invalide. Veuillez réessayer.",
+    "IN_ACTIVE_LINK":"Ce lien est déjà utilisé. Veuillez réessayer.",
+    "EXPIRE_LINK":"Le lien de réinitialisation du mot de passe a expiré."
+}
