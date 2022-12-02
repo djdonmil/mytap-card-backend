@@ -88,5 +88,14 @@ export class AddUserDto {
     })
     role_id: number;
 
+    @IsNotEmpty({
+        message: `Please enter role id.&&&role_id`,
+    })
+    @ApiProperty({
+        description: 'Enter phone number',
+        example: `8000002894`
+    })
+    phone_number: string;
+
 
 }

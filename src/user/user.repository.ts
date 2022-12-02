@@ -1,6 +1,6 @@
 import { Otp } from "src/shared/entity/otp.entity";
 import { User } from "src/shared/entity/user.entity";
-import { EntityRepository, getManager, Repository,  Not, } from "typeorm";
+import { EntityRepository, getManager, Repository, Not, } from "typeorm";
 import { UpdateUserDto } from "./dto/edit_user.dto";
 import { BadRequestException, ConflictException, NotFoundException } from "@nestjs/common";
 import { AddUserDto } from "./dto/add_user.dto";
@@ -31,8 +31,8 @@ export class UserRepository extends Repository<User>{
 
         const result = await getManager()
             .createQueryBuilder(User, 'user')
-            .leftJoinAndSelect('user.userConfigDetail', 'userConfigDetail')
-            .select(['user', 'userConfigDetail'])
+            .leftJoinAndSelect('user.products', 'products')
+            .select(['user', 'products'])
             .where('user.id =:userId', { userId: id })
             .getOne();
 
@@ -53,27 +53,16 @@ export class UserRepository extends Repository<User>{
         return result;
     }
 
-    async editUser(updateUser: UpdateUserDto, user: User, fileDto: FileDto) {
+    async editUser(updateUser: UpdateUserDto, user: User) {
 
         const userData = await User.findOne({
             where: {
-                id: updateUser.userId,
+                email: updateUser.email,
                 isActive: true
             }
         });
         if (!userData) {
             throw new NotFoundException('User not found');
-        }
-
-        const checkEmail = await this.findOne({
-            where: {
-                email: updateUser.email,
-                isDelete: false,
-                id: Not(user.id)
-            }
-        });
-        if (checkEmail) {
-            throw new ConflictException("Email already exists.")
         }
 
         if (updateUser.first_name)
@@ -87,10 +76,6 @@ export class UserRepository extends Repository<User>{
 
         userData.email = updateUser.email;
         userData.updatedBy = user.id;
-
-        if (userData.age) {
-            userData.age = updateUser.age;
-        }
 
         try {
             let res = await userData.save();
@@ -112,6 +97,7 @@ export class UserRepository extends Repository<User>{
         user.salt = salt;
         user.roleId = addUser.role_id;
         user.gender = addUser.gender
+        user.phoneNumber = addUser.phone_number
         user.createdBy = userId;
 
         try {
@@ -123,11 +109,10 @@ export class UserRepository extends Repository<User>{
     }
 
     async completeUserSetup(completeSetup: CompleteSetupDto, userExists: User, userId): Promise<any> {
-        const { pronouns, age, purpose_of_usage, organise_pills_day, utc_organise_pills_day, organise_pills_time, organise_pills_colour, organise_pills_hsv_colour, consumption_time_morning, consumption_time_evening, consumption_colour_morning, consumption_hsv_colour_morning, consumption_hsv_colour_evening, consumption_colour_evening, colour_code } = completeSetup
+        const { pronouns, purpose_of_usage, organise_pills_day, utc_organise_pills_day, organise_pills_time, organise_pills_colour, organise_pills_hsv_colour, consumption_time_morning, consumption_time_evening, consumption_colour_morning, consumption_hsv_colour_morning, consumption_hsv_colour_evening, consumption_colour_evening, colour_code } = completeSetup
         try {
 
             //updating fields in user table
-            userExists.age = age && age != null ? age : userExists.age;
             userExists.updatedAt = new Date();
             userExists.updatedBy = userId;
 

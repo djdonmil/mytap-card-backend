@@ -72,40 +72,10 @@ export class CreateUserDto {
     })
     role: number
 
-    @IsNotEmpty({
-        message: `Please select to allow email updates or not&&&allow_email_updates.`
+    @ApiPropertyOptional({
+        description: `Enter Gender`,
+        example: `Male`
     })
-    @ApiProperty({
-        description: `Allow Email Updates`,
-        example: `false`
-    })
-    allow_email_updates: boolean
+    gender: string;
 
-    @IsNotEmpty({ message: `Please enter your device model.&&&device_model&&&${errorMessage}` })
-    @ApiProperty({
-        description: `Device Model`,
-        example: 'RNE-L22',
-    })
-    device_model: string;
-
-    @IsNotEmpty({ message: `Please enter your device token.&&&device_token&&&${errorMessage}` })
-    @ApiProperty({
-        description: `Device Token`,
-        example: `123abc#$%456`,
-    })
-    device_token: string;
-
-    @IsNotEmpty({ message: `Please enter your app version.&&&app_version&&&${errorMessage}` })
-    @ApiProperty({
-        description: `App Version`,
-        example: `1.0`,
-    })
-    app_version: string;
-
-    @IsNotEmpty({ message: `Please enter your os version. &&&os_version&&&${errorMessage}` })
-    @ApiProperty({
-        description: `OS Version`,
-        example: `7.0`,
-    })
-    os_version: string;
 }

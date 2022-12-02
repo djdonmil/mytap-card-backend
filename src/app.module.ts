@@ -5,9 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeOrmConfig } from './config/typeorm.config';
-import { MailerModule } from '@nestjs-modules/mailer';
-import * as config from 'config';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ProductsModule } from './products/products.module';
 
 // const mailConfig = config.get('email');
 
@@ -15,6 +13,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
   imports: [
     AuthModule,
     UserModule,
+    ProductsModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     // MailerModule.forRoot({
     //   transport: {

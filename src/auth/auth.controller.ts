@@ -55,7 +55,7 @@ export class AuthController {
 		return result;
 	}
 
-	@Post("admin-login")
+	//@Post("admin-login")
 	@ApiOperation({ summary: "Login admin user" })
 	@ApiResponse({ status: 200, description: "Api success" })
 	@ApiResponse({ status: 406, description: "Please Verify Your Email Id" })
@@ -81,7 +81,7 @@ export class AuthController {
 	}
 
 
-	@Post('change-password')
+	//@Post('change-password')
 	@ApiOperation({ summary: "Change password if user is login" })
 	@ApiResponse({ status: 200, description: "Api success" })
 	@ApiResponse({ status: 406, description: "Please Verify Your Email Id" })

@@ -17,7 +17,7 @@ export class LoginDto{
 	)
     @ApiProperty({
         description:'User Email',
-        example:'jon.doe@gmail.com'
+        example:'nainesh@apple.com'
     })
     email:string;
 
@@ -26,7 +26,7 @@ export class LoginDto{
 	})
     @ApiProperty({
         description:'Password',
-        example:'Jondoe123@'
+        example:'Apple@1234'
     })
     password:string;
 }

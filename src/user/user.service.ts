@@ -84,7 +84,6 @@ export class UserService {
             userData.email = user.email;
             userData.roleId = user.roleId;
             userData.gender = user.gender;
-            userData.age = user.age;
             userData.createdBy = user.createdBy;
             userData.updatedBy = user.updatedBy;
             userData.id = user.id;
@@ -126,41 +125,42 @@ export class UserService {
         // Check user exists with given ID
         const user = await this.userRepository.getUser(id);
 
+        if (!user) {
+            throw new NotFoundException(`User with given id is not exists.`);
+        }
+
         let userDetail = {
             userId: user.id,
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
-            age: user.age,
-            gender: user.gender
+            gender: user.gender,
+            productDetails: user.products
         }
-        if (!user) {
-            throw new NotFoundException(`User with given id is not exists.`);
+
+        return {
+            message: "User detail fetch successfully.",
+            userDetail
         }
-        else {
-            return {
-                message: "User detail fetch successfully.",
-                userDetail
-            }
-        }
+
     }
 
-    async editUser(updateUser: UpdateUserDto, user: User, fileDto: FileDto) {
+    async editUser(updateUser: UpdateUserDto, user: User) {
         UuidValidation.validate(updateUser.userId);
 
-        //const { email } = updateUser;
+        const { email } = updateUser;
         // Check user exists with given ID
         // const userExist = await this.userRepository.findOne({ id: user.id });
         // if (!userExist)
         //     throw new NotFoundException(`User with given id not exists.`);
 
         // Check if Duplicate Email
-        // const isEmailUnique = await this.userRepository.findOne({ email: email, id: Not(userId) });
-        // if (isEmailUnique){
-        //     throw new ConflictException(`Email address already exists.`);
-        // }
+        const isEmailUnique = await this.userRepository.findOne({ email: email});
+        if (isEmailUnique){
+            throw new ConflictException(`Email address already exists.`);
+        }
 
-        const update = await this.userRepository.editUser(updateUser, user, fileDto);
+        const update = await this.userRepository.editUser(updateUser, user);
         return {
             message: "User updated successfully."
         }

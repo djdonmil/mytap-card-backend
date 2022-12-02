@@ -68,9 +68,7 @@ export class AuthService {
         const user = await this.userRepository.findOne({
             where: {
                 email,
-                roleId: In(roles),
-                isActive: true,
-                isDelete: false
+                roleId: In(roles)
             },
         });
 

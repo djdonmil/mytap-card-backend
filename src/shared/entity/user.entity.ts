@@ -1,5 +1,6 @@
 import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { Products } from "./products.entity";
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -19,8 +20,8 @@ export class User extends BaseEntity {
     @Column()
     email: string;
 
-    @Column("integer", { name: "age", nullable: true })
-    age: number | null;
+    @Column({ name: "is_active", default: true })
+    isActive: boolean;
 
     @Column("character varying", { name: "password", length: 255 })
     password: string;
@@ -33,6 +34,10 @@ export class User extends BaseEntity {
 
     @Column("integer", { name: "role_id", nullable: true })
     roleId: number | null;
+
+    @Column("character varying", { name: "phone_number", length: 15, nullable: true })
+    phoneNumber: string | null;
+
 
     @Column({
         nullable: true,
@@ -73,4 +78,10 @@ export class User extends BaseEntity {
             return false;
         }
     }
+
+    @OneToMany(
+        () => Products,
+        (products) => products.user
+    )
+    products: Products[];
 }
