@@ -132,14 +132,7 @@ export class UserRepository extends Repository<User>{
 
         let listQuery = getManager()
             .createQueryBuilder(User, 'user')
-            .innerJoinAndSelect("user.planDetails", "planDetails")
-            .leftJoinAndSelect("user.iotDeviceDetails", "iotDeviceDetails")
-            .select([
-                'user.id', 'user.firstName', 'user.lastName', 'user.email', 'user.isActive',
-                'user.lobaStatus', 'user.createdAt', 'user.allowEmailUpdates', 'planDetails.planName',
-                'iotDeviceDetails.isConnected', 'user.isDelete'
-            ])
-            .where('user.roleId IN(:...roles)', { roles: [Role.DEALER, Role.SC_USER, Role.END_USER] })
+           // .where('user.roleId IN(:...roles)', { roles: [Role.DEALER, Role.SC_USER, Role.END_USER] })
 
 
         if (filterDto) {

@@ -37,8 +37,8 @@ export class ProductsController {
 	}
 
 	@Get("/")
-	@UseGuards(AuthGuard('jwt'))
-	@ApiBearerAuth()
+	// @UseGuards(AuthGuard('jwt'))
+	// @ApiBearerAuth()
 	@ApiOperation({ summary: "Get all products list" })
 	@ApiResponse({ status: 200, description: "Api success" })
 	@ApiResponse({ status: 422, description: "Bad Request or API error message" })

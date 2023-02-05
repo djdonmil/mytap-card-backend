@@ -181,7 +181,7 @@ export class UserController {
 	}
 
 
-	//	@Get("/")
+	@Get("/")
 	@UseGuards(AuthGuard('jwt'))
 	@ApiBearerAuth()
 	@ApiOperation({ summary: "Get user list" })
