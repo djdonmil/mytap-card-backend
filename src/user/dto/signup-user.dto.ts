@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsEmail, ValidationArguments, IsEnum, ValidateIf, IsOptional } from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { Role } from 'src/shared/enums/role.enum';
+import { RolesEnum } from 'src/shared/enums/role.enum';
 import { errorMessage } from 'src/config/common.config';
 
 
@@ -57,7 +57,7 @@ export class CreateUserDto {
         message: `Please enter role.&&&role`
     })
     @Type(() => Number)
-    @IsEnum([Role.ADMIN, Role.SC_USER, Role.DEALER, Role.END_USER], {
+    @IsEnum([RolesEnum.SUPER_ADMIN, RolesEnum.ADMIN, RolesEnum.FREE_USER, RolesEnum.WHITELABEL_USER], {
         message: (args: ValidationArguments) => {
             if (typeof args.value == "undefined" || args.value == "") {
                 return `Please enter role.&&&role`;

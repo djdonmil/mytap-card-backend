@@ -1,7 +1,5 @@
-import { IsNotEmpty, IsEmail, ValidationArguments, MaxLength, MinLength, Matches } from 'class-validator'
+import { IsNotEmpty } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEqualTo } from 'src/shared/decorators/password.decorator';
-import { Role } from 'src/shared/enums/role.enum';
 
 export class StatusChangeDto {
 

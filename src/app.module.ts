@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { typeOrmConfig } from './config/typeorm.config';
-import { ProductsModule } from './products/products.module';
+import { BusinessesModule } from './businesses/businesses.module';
 
 // const mailConfig = config.get('email');
 
@@ -13,8 +13,8 @@ import { ProductsModule } from './products/products.module';
   imports: [
     AuthModule,
     UserModule,
-    ProductsModule,
     TypeOrmModule.forRoot(typeOrmConfig),
+    BusinessesModule,
     // MailerModule.forRoot({
     //   transport: {
     //     host: mailConfig.host,

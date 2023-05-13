@@ -1,8 +1,7 @@
-export enum Role{
+export enum RolesEnum {
 
-    SUPER_ADMIN=1,
-    ADMIN=2,
-    DEALER=3,
-    END_USER=4,
-    SC_USER=5
+    SUPER_ADMIN = 1,
+    ADMIN = 2,
+    WHITELABEL_USER = 3,
+    FREE_USER = 4
 }

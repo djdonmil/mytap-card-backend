@@ -12,7 +12,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from '../user/user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import { ResetTokenRepository } from './reset-token.repository';
 
 const jwtConfig = config.get('jwt');
 
@@ -27,7 +26,7 @@ const jwtConfig = config.get('jwt');
             expiresIn: jwtConfig.ExpireIn
         }
     }),
-    TypeOrmModule.forFeature([UserRepository,ResetTokenRepository]),
+    TypeOrmModule.forFeature([UserRepository]),
     ],
     controllers: [
         AuthController,],

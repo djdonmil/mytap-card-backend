@@ -1,9 +1,3 @@
-#
-# Created on Wed Jan 5 2022
-#
-# @Auther:- Dhrumil Shah
-# Copyright (c) 2022 Oneclick
-#
 
 server:
     port: 7777
@@ -13,7 +7,7 @@ db:
     port: 5433
     username: "postgres"
     host:     "localhost"
-    database: "apple_and_more"
+    database: "navkar_my_tap"
     password: "Oneclick1@"
     synchronize: true
 
@@ -33,4 +27,15 @@ jwt:
 otp:
     enabled: true
     expireTime: 10
+
+others:
+    host: "http://localhost:4200/"
+
+socialLinks:
+    facebook: ""
+    instagram: ""
+    linkedin: ""
+    twitter: ""
+    youtube: ""
+    
 

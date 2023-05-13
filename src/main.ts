@@ -41,8 +41,8 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle("Apple & More")
-    .setDescription("")
+    .setTitle("Navkar MyTap")
+    .setDescription("NFC")
     .setVersion("1.0")
     .build();
 

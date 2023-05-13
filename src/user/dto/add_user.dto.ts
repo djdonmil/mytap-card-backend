@@ -22,6 +22,36 @@ export class AddUserDto {
     })
     last_name: string;
 
+    @ApiPropertyOptional({
+        description: `Enter Company Name`,
+        example: `apple`
+    })
+    company_name: string;
+
+    @ApiPropertyOptional({
+        description: `Enter Designation`,
+        example: `Software Engineer`
+    })
+    designation: string;
+
+    @ApiPropertyOptional({
+        description: `Enter Business Id`,
+        example: 1
+    })
+    business_id: number;
+
+    @ApiPropertyOptional({
+        description: `Enter Domain Name`,
+        example: `testabc.com`
+    })
+    domain: string;
+
+    @ApiPropertyOptional({
+        description: `Enter whitelabel duration`,
+        example: false
+    })
+    whitelabel_duration: number;
+
     @IsEmail(
         {},
         {
@@ -40,19 +70,7 @@ export class AddUserDto {
     })
     email: string;
 
-    @IsNotEmpty({
-        message: `Please enter your contact number.&&&phone_no`
-    })
-    @ApiProperty({
-        description: `Enter phone number`,
-        example: `8452456712`
-    })
-    phone_no: string;
-
-    @IsNotEmpty({
-        message: `Please enter password.&&&password`
-    })
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: `Enter Password`,
         example: `Jondoe123@`
     })
@@ -63,7 +81,7 @@ export class AddUserDto {
     })
     password: string;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: `Enter confirm password`,
         example: `Jondoe123@`,
     })

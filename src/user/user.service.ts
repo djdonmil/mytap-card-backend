@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/signup-user.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from "bcrypt";
-import { User } from 'src/shared/entity/user.entity';
+import { Users } from 'src/shared/entity/users.entity';
 import * as config from "config";
 import { MailerService } from '@nestjs-modules/mailer';
 import { UpdateUserDto } from './dto/edit_user.dto';
@@ -56,11 +56,11 @@ export class UserService {
                 throw new ConflictException(`Email address already exists.`);
 
 
-            const user = new User();
+            const user = new Users();
             const salt = await bcrypt.genSalt();
 
             user.firstName = first_name;
-            user.lastName = last_name;
+            user.lastName = last_name || null;
             user.email = email;
             user.salt = salt;
             user.password = password;
@@ -82,8 +82,7 @@ export class UserService {
             userData.fristName = user.firstName;
             userData.lastName = user.lastName;
             userData.email = user.email;
-            userData.roleId = user.roleId;
-            userData.gender = user.gender;
+            // userData.roleId = user.roleId;
             userData.createdBy = user.createdBy;
             userData.updatedBy = user.updatedBy;
             userData.id = user.id;
@@ -133,9 +132,7 @@ export class UserService {
             userId: user.id,
             email: user.email,
             firstName: user.firstName,
-            lastName: user.lastName,
-            gender: user.gender,
-            productDetails: user.products
+            lastName: user.lastName
         }
 
         return {
@@ -145,7 +142,7 @@ export class UserService {
 
     }
 
-    async editUser(updateUser: UpdateUserDto, user: User) {
+    async editUser(updateUser: UpdateUserDto, user: Users) {
         UuidValidation.validate(updateUser.userId);
 
         const { email } = updateUser;

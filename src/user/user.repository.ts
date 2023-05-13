@@ -1,36 +1,23 @@
-import { Otp } from "src/shared/entity/otp.entity";
-import { User } from "src/shared/entity/user.entity";
+import { Users } from "src/shared/entity/users.entity";
 import { EntityRepository, getManager, Repository, Not, } from "typeorm";
 import { UpdateUserDto } from "./dto/edit_user.dto";
 import { BadRequestException, ConflictException, NotFoundException } from "@nestjs/common";
 import { AddUserDto } from "./dto/add_user.dto";
 import * as bcrypt from "bcrypt";
-import { Role } from "src/shared/enums/role.enum";
+import { RolesEnum } from "src/shared/enums/role.enum";
 import { PageQueryDto } from "src/shared/dtos/list_query.dto";
 import { CompleteSetupDto } from "./dto/complete_user_setup.dto";
 import { FileDto } from "./dto/image_upload.dto";
 
 
-@EntityRepository(User)
-export class UserRepository extends Repository<User>{
+@EntityRepository(Users)
+export class UserRepository extends Repository<Users>{
 
-
-    async getOtpData(userId, otp, otpType) {
-        const result = await getManager()
-            .createQueryBuilder(Otp, 'otp')
-            .where('otp.user_id =:userId', { userId })
-            .andWhere('otp.otp =:otp', { otp })
-            .andWhere('otp.otp_type =:otpType', { otpType })
-            .orderBy('created_at', 'DESC')
-            .getOne();
-
-        return result;
-    }
 
     async getUser(id) {
 
         const result = await getManager()
-            .createQueryBuilder(User, 'user')
+            .createQueryBuilder(Users, 'user')
             .leftJoinAndSelect('user.products', 'products')
             .select(['user', 'products'])
             .where('user.id =:userId', { userId: id })
@@ -42,7 +29,7 @@ export class UserRepository extends Repository<User>{
     async getUserByEmail(email, isActive, isDelete) {
 
         const result = await getManager()
-            .createQueryBuilder(User, 'user')
+            .createQueryBuilder(Users, 'user')
             .leftJoinAndSelect('user.userConfigDetail', 'userConfigDetail')
             .select(['user', 'userConfigDetail'])
             .where('user.email =:email', { email: email })
@@ -53,9 +40,9 @@ export class UserRepository extends Repository<User>{
         return result;
     }
 
-    async editUser(updateUser: UpdateUserDto, user: User) {
+    async editUser(updateUser: UpdateUserDto, user: Users) {
 
-        const userData = await User.findOne({
+        const userData = await Users.findOne({
             where: {
                 email: updateUser.email,
                 isActive: true
@@ -71,9 +58,6 @@ export class UserRepository extends Repository<User>{
         if (updateUser.last_name)
             userData.lastName = updateUser.last_name;
 
-        if (updateUser.gender)
-            userData.gender = updateUser.gender;
-
         userData.email = updateUser.email;
         userData.updatedBy = user.id;
 
@@ -88,16 +72,13 @@ export class UserRepository extends Repository<User>{
     }
 
     async addUser(addUser: AddUserDto, userId) {
-        const user = new User();
-        const salt = await bcrypt.genSalt();
+        const user = new Users();
+        // const salt = await bcrypt.genSalt();
         user.firstName = addUser.first_name;
         user.lastName = addUser.last_name;
         user.email = addUser.email;
-        user.password = addUser.password;
-        user.salt = salt;
-        user.roleId = addUser.role_id;
-        user.gender = addUser.gender
-        user.phoneNumber = addUser.phone_number
+        // user.password = addUser.password;
+        // user.salt = salt;
         user.createdBy = userId;
 
         try {
@@ -108,7 +89,7 @@ export class UserRepository extends Repository<User>{
         }
     }
 
-    async completeUserSetup(completeSetup: CompleteSetupDto, userExists: User, userId): Promise<any> {
+    async completeUserSetup(completeSetup: CompleteSetupDto, userExists: Users, userId): Promise<any> {
         const { pronouns, purpose_of_usage, organise_pills_day, utc_organise_pills_day, organise_pills_time, organise_pills_colour, organise_pills_hsv_colour, consumption_time_morning, consumption_time_evening, consumption_colour_morning, consumption_hsv_colour_morning, consumption_hsv_colour_evening, consumption_colour_evening, colour_code } = completeSetup
         try {
 
@@ -131,9 +112,12 @@ export class UserRepository extends Repository<User>{
     async fetchAllUsers(filterDto: PageQueryDto) {
 
         let listQuery = getManager()
-            .createQueryBuilder(User, 'user')
-           // .where('user.roleId IN(:...roles)', { roles: [Role.DEALER, Role.SC_USER, Role.END_USER] })
+            .createQueryBuilder(Users, 'user')
+        // .where('user.roleId IN(:...roles)', { roles: [Role.DEALER, Role.SC_USER, Role.END_USER] })
 
+        if (filterDto ?.search) {
+            listQuery.where('((user.first_name ~* :search) or (user.last_name ~* :search) or (user.email like :search) )', { search: `${filterDto.search}` })
+        }
 
         if (filterDto) {
             listQuery.skip(filterDto.offset * filterDto.limit)
@@ -150,7 +134,7 @@ export class UserRepository extends Repository<User>{
         return { users: usersWithCount[0], page: filterDto };
     }
 
-    async saveImage(user: User, imagePath) {
+    async saveImage(user: Users, imagePath) {
         try {
             let res = await user.save();
             return res;

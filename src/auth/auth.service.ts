@@ -9,13 +9,12 @@ import { UserRepository } from 'src/user/user.repository';
 import { LoginDto } from './dto/login.dto';
 import { JwtPayload } from './jwt-payload.interface';
 import * as config from "config";
-import { Otp } from 'src/shared/entity/otp.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { OtpVerifyDto } from './dto/otp-verify.dto';
 import { SendMailerUtility } from 'src/shared/utility/send_mailer.utility';
 import { MobileLoginDto } from './dto/mobile-login.dto';
 import * as md5 from "md5";
-import { User } from 'src/shared/entity/user.entity';
+import { Users} from 'src/shared/entity/users.entity';
 import { In } from 'typeorm';
 import { GenerateOtpNumber } from 'src/shared/utility/generate-otp.utility';
 import { ResendOtpDto } from './dto/resend-otp.dto';
@@ -23,9 +22,7 @@ import { changePasswordDto } from './dto/change-password.dto';
 import * as bcrypt from 'bcrypt';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import crypto = require('crypto');
-import { ResetPasswordToken } from 'src/shared/entity/reset-password-token.entity';
 import { ResetLinkDto } from './dto/reset-link.dto';
-import { ResetTokenRepository } from './reset-token.repository';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForceUpdateDto } from './dto/force-update.dto';
 
@@ -39,8 +36,6 @@ export class AuthService {
     constructor(
         @InjectRepository(UserRepository)
         private userRepository: UserRepository,
-        @InjectRepository(ResetTokenRepository)
-        private resetTokenRepository: ResetTokenRepository,
         private jwtService: JwtService,
         // private mailerService: MailerService,
 
@@ -58,7 +53,7 @@ export class AuthService {
      * @returns 
      * Login user with email and password with otp and with out otp based on set config otp value
      */
-    async loginUser(loginUser: LoginDto, roles): Promise<{ access_token: string, user: User, message: string }> {
+    async loginUser(loginUser: LoginDto, roles): Promise<{ access_token: string, user: Users, message: string }> {
 
         const {
             email,

@@ -22,7 +22,7 @@ import { StatusFilter } from 'src/shared/interceptors/status_exception/status.fi
 import { CompleteSetupDto } from './dto/complete_user_setup.dto';
 import { EditDefaultTimeSlotDto } from './dto/edit-default-timeslot.dto';
 import { UpdateEmailDto } from './dto/edit_email.dto';
-import { User } from 'src/shared/entity/user.entity';
+import { Users} from 'src/shared/entity/users.entity';
 import { UserSettingsDto } from './dto/user_settings.dto';
 import { EditUserAdminDto } from './dto/edit_user_admin.dto';
 import { UserPlanStatusDto } from './dto/user_plan_status.dto';
@@ -56,15 +56,31 @@ export class UserController {
 		description: 'Enter language code(ex. en)',
 		example: 'en'
 	})
+	@UseInterceptors(
+		FileFieldsInterceptor(
+			[
+				{ name: "profilePic" },
+			],
+			{
+				storage: diskStorage({
+                    destination: `./assets/profile-pic`,
+					filename: editFileName,
+				}),
+				fileFilter: imageFileFilter,
+			},
+		),
+	)
 	async addUser(
 		@Body() createUser: AddUserDto,
-		@GetUser() user
+		@GetUser() user,
+		@UploadedFiles() fileDto: FileDto,
+		@Req() req
 	) {
 		return await this.userService.addUser(createUser, user.id);
 	}
 
 
-	//	@Post("/signup")
+	//@Post("/signup")
 	@ApiOperation({ summary: "Signup user" })
 	@ApiResponse({ status: 200, description: "Api success" })
 	@ApiResponse({ status: 422, description: "Bad Request or API error message" })

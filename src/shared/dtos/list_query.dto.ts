@@ -65,15 +65,10 @@ export class PageQueryDto {
     })
     status: boolean
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         required: false,
-        description: "Enter plan type"
+        description: "Enter search"
     })
-    plan_id: number
+    search: string
 
-    @ApiProperty({
-        required: false,
-        description: "Enter with Loba or without Loba"
-    })
-    is_loba: number
-}
+ }
